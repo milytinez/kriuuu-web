@@ -1,25 +1,86 @@
-const questions=[
-["La regla de los 3 clics","¿Puede un comercial crear un Lead y agendar una tarea en menos de 3 clics?","ux"],
-["Campos basura","¿Pedís solo los campos realmente necesarios para un registro inicial?","ux"],
-["Layouts congestionados","¿La información importante está arriba sin necesidad de hacer scroll?","ux"],
-["Carga móvil","¿Tu equipo puede actualizar un cierre desde el celular en menos de 20 segundos?","ux"],
-["Navegación intuitiva","¿Los botones de acción están siempre en el mismo lugar?","ux"],
-['El "Ojo de Sauron"',"¿El dashboard muestra a cada comercial cuánto puede ganar este mes?","adoption"],
-["Notas de voz","¿Tienen habilitado el dictado para registrar llamadas?","adoption"],
-["Validaciones que castigan","¿Las validaciones guían el proceso desde el principio?","adoption"],
-['Alertas de "Lead muerto"',"¿El sistema avisa cuando un lead no ha sido tocado en 24h?","adoption"],
-["Búsqueda global","¿Encuentran un contacto en 2 segundos?","adoption"],
-["Duplicados","¿Tu sistema evita que dos comerciales llamen al mismo contacto?","data"],
-["Pipeline visual","¿El Kanban refleja la realidad y mantiene las fechas actualizadas?","data"],
-["Informes en un clic","¿El CEO puede ver el ROI real por canal sin pedir ayuda?","data"],
-["Automatización de tareas","¿El sistema crea seguimientos automáticamente?","data"],
-["Integración de email","¿Toda la comunicación vive en Salesforce sin copiar y pegar?","data"]];
-const cats={ux:["I","UX & Velocidad de Ejecución","Fricción"],adoption:["II","Adopción & Psicología","El factor humano"],data:["III","Data & Dinero","El ROI"]};
-function render(el,start,end){let h="",prev="";questions.slice(start,end).forEach((q,o)=>{let i=start+o;if(q[2]!==prev){if(prev)h+="</div></section>";let c=cats[q[2]];h+=`<section class="question-category ${q[2]}"><header><span>${c[0]}</span><b>${c[1]}</b><small>(${c[2]})</small></header><div>`;prev=q[2]}h+=`<article class="question"><span>${String(i+1).padStart(2,"0")}</span><div><h3>${q[0]}</h3><p>${q[1]}</p></div><fieldset><label><input type="radio" name="q${i}" value="yes">SÍ</label><label><input type="radio" name="q${i}" value="no">NO</label></fieldset></article>`});el.innerHTML=h+"</div></section>"}
-render(document.querySelector("#questions-one"),0,10);render(document.querySelector("#questions-two"),10,15);
-const steps=[...document.querySelectorAll(".audit-step")];
-function show(){steps.forEach(s=>s.classList.add("active"));document.querySelector("#page-count").textContent="Auditoría completa";update()}
-document.querySelectorAll("[data-next]").forEach(b=>b.onclick=()=>show(+b.dataset.next));
-function update(){const answers=[...document.querySelectorAll('input:checked')],no=answers.filter(x=>x.value==="no").length,complete=answers.length===15,score=complete?Math.round((15-no)/15*100):null,byCategory={ux:[0,0],adoption:[0,0],data:[0,0]};questions.forEach((q,i)=>{const answer=document.querySelector(`input[name="q${i}"]:checked`);if(answer){byCategory[q[2]][1]++;if(answer.value==="yes")byCategory[q[2]][0]++}});document.querySelector("#no-count").textContent=no;document.querySelector("#score-value").textContent=complete?score:"—";document.querySelector("#score-ring").style.setProperty("--score",complete?`${score*3.6}deg`:"0deg");[["ux",5],["adoption",5],["data",5]].forEach(([key,total])=>{const value=byCategory[key][1]===total?Math.round(byCategory[key][0]/total*100):null;document.querySelector(`#${key}-score`).textContent=value===null?"—":`${value}%`;document.querySelector(`#${key}-bar`).style.width=value===null?"0%":`${value}%`});let status="Completá la auditoría",title="Tu CRM puede devolverte horas de venta.",copy="Respondé los 15 puntos para descubrir cuánta fricción está frenando a tu equipo.",level="pending";if(complete&&no<=2){status="Salesforce en forma";title="Tu CRM trabaja para vos. Ahora hacelo volar.";copy="La base es sólida. Hay pocas fricciones y una gran oportunidad para convertir eficiencia en más cierres.";level="excellent"}else if(complete&&no<=5){status="Potencial bloqueado";title="Estás cerca, pero todavía dejás ventas sobre la mesa.";copy="Hay fricciones concretas que consumen tiempo todos los días. Resolverlas puede devolverle foco comercial a tu equipo.";level="improvable"}else if(complete&&no<=10){status="Alerta de rendimiento";title="Tu Salesforce está frenando ventas activamente.";copy="Cada proceso difícil empuja a tu equipo fuera del CRM y deteriora los datos. Es momento de rediseñar el flujo.";level="critical"}else if(complete){status="Intervención urgente";title="Tu equipo trabaja para Salesforce. Debería ser al revés.";copy="La fricción ya es estructural. Actuar ahora puede recuperar horas de venta y evitar decisiones basadas en datos incompletos.";level="urgent"}const result=document.querySelector("#audit-result");result.dataset.level=level;document.querySelector("#result-status").textContent=status;document.querySelector("#result-title").textContent=title;document.querySelector("#result-copy").textContent=copy}
-function updateMissing(){const remaining=15-document.querySelectorAll('input:checked').length,notice=document.querySelector("#answers-missing");notice.hidden=remaining===0;notice.textContent=remaining===1?"Falta 1 respuesta para calcular tu puntaje.":`Faltan ${remaining} respuestas para calcular tu puntaje.`}
-document.onchange=()=>{update();updateMissing()};document.querySelector("#restart").onclick=()=>{document.querySelectorAll("input").forEach(x=>x.checked=false);show(1);updateMissing()};updateMissing();
+const questions = [
+  ["Pipeline real", "¿El pipeline refleja tu proceso de venta real, o son las etapas de fábrica que nadie tocó?", "commercial", false],
+  ["Actividad automática", "¿Las llamadas y reuniones se registran solas, o dependen de que alguien se acuerde de escribirlas?", "commercial", false],
+  ["Seguimiento inteligente", "¿El sistema crea las tareas de seguimiento solo, o depende de la memoria del comercial?", "data", false],
+  ["Control de duplicados", "¿Tu sistema evita que dos personas llamen al mismo lead el mismo día?", "data", false],
+  ["Visibilidad ejecutiva", "¿El dueño o CEO ve el estado real del negocio sin pedirle un reporte a nadie?", "commercial", false],
+  ["Adopción diaria", "¿Tu equipo usa Salesforce todos los días sin que se lo exijan?", "commercial", false],
+  ["Asignación de casos", "¿Los casos se asignan automáticamente, o alguien los reparte a mano?", "clouds", true],
+  ["SLA medible", "¿Tenés un tiempo de respuesta que podés medir, o es “lo que tarde”?", "clouds", true],
+  ["ROI de campañas", "¿Sabés qué campaña generó cada venta, en pesos?", "clouds", true],
+  ["Marketing conectado", "¿Los leads de marketing entran solos a ventas, o alguien los pasa a mano?", "clouds", true],
+  ["Autoservicio de clientes", "¿Tus clientes pueden ver pedidos, casos o facturas sin llamarte?", "clouds", true],
+  ["Integraciones sin copy-paste", "¿Tu equipo evita copiar y pegar datos entre Salesforce y otros sistemas?", "data", true],
+  ["Seguridad bien definida", "¿Sabés quién puede ver y editar qué, sin que todos sean “medio admin”?", "data", true],
+  ["Venta móvil", "¿Tu equipo puede cerrar una venta desde el celular sin volver a la oficina?", "clouds", true]
+];
+
+const cats = {
+  commercial: ["I", "Núcleo comercial", "Ventas, visibilidad y adopción"],
+  data: ["II", "Datos & automatización", "Calidad, seguimiento y seguridad"],
+  clouds: ["III", "Nubes extendidas", "Solo si usás esa funcionalidad"]
+};
+
+function render(el, start, end) {
+  let html = "", previous = "";
+  questions.slice(start, end).forEach((q, offset) => {
+    const index = start + offset;
+    if (q[2] !== previous) {
+      if (previous) html += "</div></section>";
+      const category = cats[q[2]];
+      html += `<section class="question-category ${q[2]}"><header><span>${category[0]}</span><b>${category[1]}</b><small>(${category[2]})</small></header><div>`;
+      previous = q[2];
+    }
+    html += `<article class="question"><span>${String(index + 1).padStart(2, "0")}</span><div><h3>${q[0]}${q[3] ? " · Extendido" : ""}</h3><p>${q[1]}</p></div><fieldset><label><input type="radio" name="q${index}" value="2">SÍ</label><label><input type="radio" name="q${index}" value="1">PARCIAL</label><label><input type="radio" name="q${index}" value="0">NO</label>${q[3] ? `<label class="na"><input type="radio" name="q${index}" value="na">N/A</label>` : ""}</fieldset></article>`;
+  });
+  el.innerHTML = html + "</div></section>";
+}
+
+render(document.querySelector("#questions-one"), 0, 6);
+render(document.querySelector("#questions-two"), 6, 14);
+
+const groups = { commercial: [0, 1, 4, 5], data: [2, 3, 11, 12], clouds: [6, 7, 8, 9, 10, 13] };
+function groupScore(indices) {
+  const values = indices.map(i => document.querySelector(`input[name="q${i}"]:checked`)?.value).filter(v => v && v !== "na").map(Number);
+  return values.length ? Math.round(values.reduce((a, b) => a + b, 0) / (values.length * 2) * 100) : null;
+}
+
+function update() {
+  const answers = questions.map((_, i) => document.querySelector(`input[name="q${i}"]:checked`)?.value);
+  const complete = answers.every(Boolean);
+  const scored = answers.filter(v => v && v !== "na").map(Number);
+  const score = complete && scored.length ? Math.round(scored.reduce((a, b) => a + b, 0) / (scored.length * 2) * 100) : null;
+  const findings = answers.filter(v => v === "0" || v === "1").length;
+  document.querySelector("#no-count").textContent = findings;
+  document.querySelector("#score-value").textContent = score === null ? "—" : score;
+  document.querySelector("#score-ring").style.setProperty("--score", score === null ? "0deg" : `${score * 3.6}deg`);
+  Object.entries(groups).forEach(([key, indices]) => {
+    const value = complete ? groupScore(indices) : null;
+    document.querySelector(`#${key}-score`).textContent = value === null ? "—" : `${value}%`;
+    document.querySelector(`#${key}-bar`).style.width = value === null ? "0%" : `${value}%`;
+  });
+
+  let status = "Completá la auditoría", title = "Descubrí dónde tenés dinero parado.", copy = "Respondé los 14 puntos para medir cuánto valor real le está devolviendo Salesforce a tu empresa.", level = "pending";
+  if (complete && score > 75) {
+    status = "Salesforce bien construido"; title = "Tu Salesforce vende. El próximo salto está en optimizar."; copy = "La base funciona y acompaña al negocio. Revisá los hallazgos parciales para encontrar mejoras de alto impacto."; level = "excellent";
+  } else if (complete && score >= 50) {
+    status = "Hay palanca sin usar"; title = "Funciona, pero todavía deja dinero arriba de la mesa."; copy = "Hay procesos manuales y capacidades nativas sin aprovechar. Resolverlos puede acelerar ventas sin desarrollo a medida."; level = "improvable";
+  } else if (complete) {
+    status = "Te está costando plata"; title = "Tu Salesforce está frenando al equipo todos los meses."; copy = "La fricción es estructural: se pierde información, tiempo comercial y visibilidad. La buena noticia es que puede resolverse con herramientas estándar."; level = "urgent";
+  }
+  document.querySelector("#audit-result").dataset.level = level;
+  document.querySelector("#result-status").textContent = status;
+  document.querySelector("#result-title").textContent = title;
+  document.querySelector("#result-copy").textContent = copy;
+}
+
+function updateMissing() {
+  const remaining = questions.filter((_, i) => !document.querySelector(`input[name="q${i}"]:checked`)).length;
+  const notice = document.querySelector("#answers-missing");
+  notice.hidden = remaining === 0;
+  notice.textContent = remaining === 1 ? "Falta 1 respuesta para calcular tu puntaje." : `Faltan ${remaining} respuestas para calcular tu puntaje.`;
+}
+
+document.onchange = () => { update(); updateMissing(); };
+document.querySelector("#restart").onclick = () => { document.querySelectorAll(".question input").forEach(input => input.checked = false); update(); updateMissing(); window.scrollTo({top: 0, behavior: "smooth"}); };
+update(); updateMissing();
