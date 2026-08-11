@@ -31,13 +31,15 @@ function render(el, start, end) {
       html += `<section class="question-category ${q[2]}"><header><span>${category[0]}</span><b>${category[1]}</b><small>(${category[2]})</small></header><div>`;
       previous = q[2];
     }
-    html += `<article class="question"><span>${String(index + 1).padStart(2, "0")}</span><div><h3>${q[0]}${q[3] ? " · Extendido" : ""}</h3><p>${q[1]}</p></div><fieldset><label><input type="radio" name="q${index}" value="2">SÍ</label><label><input type="radio" name="q${index}" value="1">PARCIAL</label><label><input type="radio" name="q${index}" value="0">NO</label>${q[3] ? `<label class="na"><input type="radio" name="q${index}" value="na">N/A</label>` : ""}</fieldset></article>`;
+    html += `<article class="question"><span aria-hidden="true">${String(index + 1).padStart(2, "0")}</span><div><h3>${q[0]}${q[3] ? " · Extendido" : ""}</h3><p>${q[1]}</p></div><fieldset aria-label="${q[0]}"><label><input type="radio" name="q${index}" value="2">SÍ</label><label><input type="radio" name="q${index}" value="1">PARCIAL</label><label><input type="radio" name="q${index}" value="0">NO</label>${q[3] ? `<label class="na"><input type="radio" name="q${index}" value="na">N/A</label>` : ""}</fieldset></article>`;
   });
   el.innerHTML = html + "</div></section>";
 }
 
 render(document.querySelector("#questions-one"), 0, 6);
 render(document.querySelector("#questions-two"), 6, 14);
+document.querySelector("#audit-result").setAttribute("aria-live", "polite");
+document.querySelector("#score-ring").setAttribute("role", "img");
 
 const groups = { commercial: [0, 1, 4, 5], data: [2, 3, 11, 12], clouds: [6, 7, 8, 9, 10, 13] };
 function groupScore(indices) {
@@ -53,6 +55,7 @@ function update() {
   const findings = answers.filter(v => v === "0" || v === "1").length;
   document.querySelector("#no-count").textContent = findings;
   document.querySelector("#score-value").textContent = score === null ? "—" : score;
+  document.querySelector("#score-ring").setAttribute("aria-label", score === null ? "Puntaje pendiente" : `Puntaje ${score} de 100`);
   document.querySelector("#score-ring").style.setProperty("--score", score === null ? "0deg" : `${score * 3.6}deg`);
   Object.entries(groups).forEach(([key, indices]) => {
     const value = complete ? groupScore(indices) : null;
