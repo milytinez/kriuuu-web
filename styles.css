@@ -418,3 +418,17 @@ footer{height:92px;background:var(--paper);border:0}
   .audit-profile{margin:54px 24px 0;padding:34px 26px}.audit-profile h2{font-size:37px}
   .question-category>header{margin:0 24px}.question-category>div{padding:0 24px}.audit-result{margin:54px 24px;padding:30px}.audit-offer{margin:38px 24px}
 }
+
+/* Suavizado sutil: editorial, no rígido */
+.button,.button-teal,.button-lime,.button-outline,.button-dark,.button-ghost{border-radius:6px}
+.button-teal:after,.button-lime:after{border-radius:0 6px 6px 0}
+.audit-profile,.audit-result,.audit-note,.audit-offer{border-radius:10px}
+.audit-offer>div{border-radius:8px}.audit-offer>div a{border-radius:6px}
+.audit-profile input,.audit-profile select{border-radius:5px 5px 0 0}
+.question-category>header{border-radius:8px 8px 0 0}
+.question label{border-radius:6px}
+.audit-tags span,.capabilities span,.result-status,.answers-missing{border-radius:4px}
+.result-guide>div{border-radius:10px}
+.resource{margin:0 2vw;border-radius:12px}
+.stats{border-radius:10px 0 0 0;overflow:hidden}
+.capabilities{border-radius:12px 0 0 12px}
