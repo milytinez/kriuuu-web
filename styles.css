@@ -432,3 +432,10 @@ footer{height:92px;background:var(--paper);border:0}
 .resource{margin:0 2vw;border-radius:12px}
 .stats{border-radius:10px 0 0 0;overflow:hidden}
 .capabilities{border-radius:12px 0 0 12px}
+
+/* Puntas de las formas: redondeado mínimo */
+.hero-copy:before{border-radius:7px 7px 7px 72%}
+.resource:after{border-radius:7px 7px 7px 75%}
+.audit-cover:before{border-radius:7px 7px 7px 82%}
+.cta:before{border-radius:7px 7px 80% 7px}
+.hero-copy:after,.audit-cover:after,.cta:after{border-radius:999px 999px 8px 8px}
