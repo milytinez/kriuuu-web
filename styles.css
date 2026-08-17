@@ -292,3 +292,40 @@ footer{height:110px;padding:0 max(5.6vw,32px);border-top:2px solid var(--ink)}
   .question label{min-width:0;padding:0 10px}
   .button:hover,.button:active,.audit-actions button:hover,.audit-actions button:active{transform:none}
 }
+
+/* Menos líneas: separación por aire, color y superficies */
+.nav,.audit-header{border-bottom:1px solid var(--line)}
+.hero,.about,.services,.resource,.audit-intro{border-color:var(--line)}
+.hero-visual,.about-visual{border-left:1px solid var(--line)}
+.resource{border-top:0;border-bottom:0}
+.services article{border-right:1px solid var(--line)}
+.services article:hover{background:#f4fbf9}
+.about{border-bottom:0}
+footer{border-top:1px solid var(--line)}
+.audit-intro article+article{border-left:1px solid #ffffff24}
+.audit-how>div{border-top:1px solid var(--line)}
+.audit-how article+article{border-left:1px solid var(--line)}
+.result-guide>div{border:0;background:var(--paper);overflow:hidden}
+.result-guide article{border-right:1px solid var(--line)}
+.audit-profile,.audit-result{border:1px solid #cfcfca;box-shadow:0 12px 32px rgba(26,26,26,.08)}
+.audit-profile{box-shadow:8px 8px 0 rgba(0,226,244,.42)}
+.audit-result{box-shadow:8px 8px 0 rgba(0,226,244,.38)}
+.question-category{border-top:0;margin-top:18px}
+.question-category>header{border-bottom:0;border-radius:var(--radius-md) var(--radius-md) 0 0}
+.question-category>div{background:#fff}
+.question{border-bottom:1px solid #deded9}
+.audit-note{border:0;border-left:7px solid var(--teal);box-shadow:0 8px 24px rgba(26,26,26,.07)}
+.audit-offer{border:0}
+.audit-offer>div{border:1px solid #ffffff38}
+.audit-result>.score-ring{border:0}
+.button-outline{border-color:#777}
+
+@media(max-width:800px){
+  .hero-visual,.about-visual{border-left:0;border-top:1px solid var(--line)}
+  .services article{border-bottom:1px solid var(--line)}
+}
+@media(max-width:650px){
+  .audit-intro article+article{border-left:0;border-top:0}
+  .audit-how article+article{border-left:0;border-top:1px solid var(--line)}
+  .result-guide article{border-right:0;border-bottom:1px solid var(--line)}
+}
