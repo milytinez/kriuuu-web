@@ -75,6 +75,18 @@ function update() {
   document.querySelector("#result-status").textContent = status;
   document.querySelector("#result-title").textContent = title;
   document.querySelector("#result-copy").textContent = copy;
+  const result = document.querySelector("#audit-result");
+  const gate = document.querySelector("#result-gate");
+  const preview = document.querySelector("#result-preview");
+  if (!complete) {
+    gate.hidden = true;
+    preview.classList.remove("is-locked");
+    preview.removeAttribute("aria-hidden");
+  } else if (!result.classList.contains("is-revealed")) {
+    gate.hidden = false;
+    preview.classList.add("is-locked");
+    preview.setAttribute("aria-hidden", "true");
+  }
 }
 
 function updateMissing() {
@@ -85,5 +97,48 @@ function updateMissing() {
 }
 
 document.onchange = () => { update(); updateMissing(); };
-document.querySelector("#restart").onclick = () => { document.querySelectorAll(".question input").forEach(input => input.checked = false); update(); updateMissing(); window.scrollTo({top: 0, behavior: "smooth"}); };
+document.querySelector("#restart").onclick = () => { document.querySelectorAll(".question input").forEach(input => input.checked = false); document.querySelector("#audit-result").classList.remove("is-revealed"); update(); updateMissing(); window.scrollTo({top: 0, behavior: "smooth"}); };
+
+document.querySelector("#lead-form").addEventListener("submit", async event => {
+  event.preventDefault();
+  const form = event.currentTarget;
+  const message = document.querySelector("#lead-message");
+  const button = document.querySelector("#lead-submit");
+  const answers = questions.map((q, i) => ({ key: `q${i + 1}`, label: q[0], value: document.querySelector(`input[name="q${i}"]:checked`)?.value || null }));
+  const missing = answers.filter(answer => !answer.value).length;
+  if (missing) {
+    message.textContent = `Completá las ${missing} respuestas pendientes antes de guardar el resultado.`;
+    document.querySelector("#answers-missing").scrollIntoView({ behavior: "smooth", block: "center" });
+    return;
+  }
+
+  const data = new FormData(form);
+  const profileInputs = [...document.querySelectorAll(".audit-profile input, .audit-profile select")];
+  const score = Number(document.querySelector("#score-value").textContent);
+  const payload = {
+    name: data.get("name"), email: data.get("email"), company: data.get("company"), role: data.get("role"), consent: data.get("consent") === "on",
+    profile: { products: profileInputs[0]?.value || "", implementationAge: profileInputs[1]?.value || "", administration: profileInputs[2]?.value || "", objective: profileInputs[3]?.value || "" },
+    answers, score,
+    categoryScores: Object.fromEntries(Object.keys(groups).map(key => [key, groupScore(groups[key])]))
+  };
+
+  button.disabled = true;
+  button.textContent = "Guardando…";
+  message.textContent = "";
+  try {
+    const response = await fetch("/api/audits", { method: "POST", headers: { "content-type": "application/json" }, body: JSON.stringify(payload) });
+    if (!response.ok) throw new Error("No se pudo guardar");
+    form.reset();
+    document.querySelector("#audit-result").classList.add("is-revealed");
+    document.querySelector("#result-preview").classList.remove("is-locked");
+    document.querySelector("#result-preview").removeAttribute("aria-hidden");
+    document.querySelector("#result-gate").hidden = true;
+    document.querySelector("#result-preview").scrollIntoView({ behavior: "smooth", block: "center" });
+  } catch {
+    message.textContent = "No pudimos guardar el resultado. Intentá nuevamente o escribinos a hola@kriuuu.com.";
+  } finally {
+    button.disabled = false;
+    button.textContent = "Guardar resultado y contactarme →";
+  }
+});
 update(); updateMissing();

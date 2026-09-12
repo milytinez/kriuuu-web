@@ -22,7 +22,25 @@
   </section>
   <section class="audit-step" data-step="2"><div id="questions-one"></div><div class="audit-note"><b>Núcleo · 12 puntos posibles</b><p>Estas seis preguntas aplican a todas las empresas y miden si Salesforce acompaña el trabajo comercial real.</p></div></section>
   <section class="audit-step" data-step="3"><div id="questions-two"></div>
-    <section class="audit-result" id="audit-result"><div class="score-ring" id="score-ring"><div><strong id="score-value">—</strong><span>de 100</span></div></div><div class="result-content"><p class="audit-kicker">Tu diagnóstico Salesforce</p><span class="result-status" id="result-status">Completá la auditoría</span><p class="answers-missing" id="answers-missing">Faltan 14 respuestas para calcular tu puntaje.</p><h2 id="result-title">Descubrí dónde tenés dinero parado.</h2><p id="result-copy">Respondé los 14 puntos para medir cuánto valor real le está devolviendo Salesforce a tu empresa.</p><div class="category-scores"><div><span>Núcleo comercial</span><b id="commercial-score">—</b><i><span id="commercial-bar"></span></i></div><div><span>Datos & automatización</span><b id="data-score">—</b><i><span id="data-bar"></span></i></div><div><span>Nubes extendidas</span><b id="clouds-score">—</b><i><span id="clouds-bar"></span></i></div></div><p class="result-count"><strong id="no-count">0</strong> hallazgos detectados en 14 puntos</p></div></section>
+    <section class="audit-result" id="audit-result">
+      <div class="result-preview" id="result-preview"><div class="score-ring" id="score-ring"><div><strong id="score-value">—</strong><span>de 100</span></div></div><div class="result-content"><p class="audit-kicker">Tu diagnóstico Salesforce</p><span class="result-status" id="result-status">Completá la auditoría</span><p class="answers-missing" id="answers-missing">Faltan 14 respuestas para calcular tu puntaje.</p><h2 id="result-title">Descubrí dónde tenés dinero parado.</h2><p id="result-copy">Respondé los 14 puntos para medir cuánto valor real le está devolviendo Salesforce a tu empresa.</p><div class="category-scores"><div><span>Núcleo comercial</span><b id="commercial-score">—</b><i><span id="commercial-bar"></span></i></div><div><span>Datos & automatización</span><b id="data-score">—</b><i><span id="data-bar"></span></i></div><div><span>Nubes extendidas</span><b id="clouds-score">—</b><i><span id="clouds-bar"></span></i></div></div><p class="result-count"><strong id="no-count">0</strong> hallazgos detectados en 14 puntos</p></div></div>
+      <section class="audit-lead" id="result-gate" aria-labelledby="lead-title" hidden>
+      <p class="audit-kicker">Tu diagnóstico está listo</p>
+      <h2 id="lead-title">Desbloqueá tu resultado y llegá a la reunión con prioridades claras.</h2>
+      <p>Completá tus datos para revelar ahora el puntaje, los gráficos y los hallazgos. Guardaremos el diagnóstico para poder revisarlo juntos.</p>
+      <form id="lead-form">
+        <div class="lead-fields">
+          <label>Nombre y apellido<input name="name" autocomplete="name" required maxlength="100"></label>
+          <label>Email de trabajo<input name="email" type="email" autocomplete="email" required maxlength="160"></label>
+          <label>Empresa<input name="company" autocomplete="organization" maxlength="120"></label>
+          <label>Rol<input name="role" autocomplete="organization-title" maxlength="100"></label>
+        </div>
+        <label class="lead-consent"><input name="consent" type="checkbox" required><span>Acepto que Kriuuu guarde mis respuestas y me contacte sobre esta auditoría y servicios relacionados. Puedo solicitar la eliminación de mis datos escribiendo a hola@kriuuu.com.</span></label>
+        <button type="submit" id="lead-submit">Guardar resultado y contactarme →</button>
+        <p class="lead-message" id="lead-message" role="status" aria-live="polite"></p>
+      </form>
+      </section>
+    </section>
     <section class="audit-offer"><p class="audit-kicker">El próximo paso</p><h2>Lo que marcaste como NO o PARCIAL puede resolverse con funcionalidad <em>nativa de Salesforce</em>.</h2><p>Sin desarrollo a medida: se configura en días, no en meses, y muchas veces con lo que tu licencia ya incluye.</p><div><p><b>Sesión de diagnóstico de flujo · 15 minutos</b><br>Revisemos tus hallazgos y prioricemos las mejoras que más dinero y tiempo pueden recuperar.</p><a href="mailto:hola@kriuuu.com?subject=Sesión%20de%20diagnóstico">Agendar sesión →</a></div></section>
     <div class="audit-actions"><button id="restart">Reiniciar auditoría</button></div>
   </section>
