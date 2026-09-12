@@ -1,0 +1,20 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+  <meta name="robots" content="noindex,nofollow,noarchive">
+  <title>Auditorías · Kriuuu</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;700;900&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="./admin.css"><script src="./admin.js" defer></script>
+</head>
+<body>
+  <header><div><span class="mark" aria-hidden="true"></span><strong>kriuuu</strong></div><p>Panel privado · Auditorías Salesforce</p></header>
+  <main>
+    <section class="intro"><div><p class="eyebrow">CONTACTOS + DIAGNÓSTICOS</p><h1>Las oportunidades,<br>antes de la reunión.</h1></div><div class="summary"><strong id="total">—</strong><span>auditorías guardadas</span></div></section>
+    <section class="toolbar"><label><span>Buscar</span><input id="search" type="search" placeholder="Nombre, email o empresa…" autocomplete="off"></label><button id="export" disabled>Exportar CSV</button></section>
+    <p id="status" class="status" role="status">Cargando auditorías…</p>
+    <section id="cards" class="cards" aria-live="polite"></section>
+  </main>
+  <dialog id="detail"><button class="close" aria-label="Cerrar">×</button><div id="detail-content"></div></dialog>
+</body></html>
