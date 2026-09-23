@@ -499,3 +499,15 @@ footer{height:92px;background:var(--paper);border:0}
   .category-scores{grid-template-columns:1fr;gap:18px}
   .result-content h2{font-size:clamp(28px,9vw,38px)}
 }
+
+/* Contraste y alineación final */
+.result-status{color:#fff!important;background:var(--ink)!important}
+.result-guide article,.result-guide article b,.result-guide article strong{color:var(--ink)}
+.result-guide article p{color:#333}
+.result-guide article i{background:var(--teal)}
+.result-guide .improvable i{background:var(--lime);box-shadow:inset 0 0 0 1px var(--ink)}
+.result-guide .excellent i{background:var(--teal)}
+.result-guide .urgent i,.result-guide .critical i{background:var(--ink)}
+.audit-offer>div a{display:inline-flex;align-items:center;justify-content:center;color:var(--ink);background:var(--teal)}
+.cta .button-ghost{color:#fff;border-color:#fff;background:transparent}
+.cta .button-ghost:hover{color:var(--ink);background:#fff}
