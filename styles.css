@@ -458,3 +458,43 @@ footer{height:92px;background:var(--paper);border:0}
 .audit-cover:before{border-radius:7px 7px 7px 82%}
 .cta:before{border-radius:7px 7px 80% 7px}
 .hero-copy:after,.audit-cover:after,.cta:after{border-radius:999px 999px 8px 8px}
+
+/* Ajustes de consistencia: resultado amplio + botones Kriuuu */
+.audit-result{display:block;min-width:0}
+.audit-result .result-preview{width:100%;grid-template-columns:minmax(180px,220px) minmax(0,1fr);align-items:center}
+.audit-result .result-content{min-width:0}
+.result-content h2{max-width:820px}
+.category-scores{grid-template-columns:repeat(3,minmax(0,1fr))}
+
+.button-teal,.button-lime,.button-dark,
+.audit-lead button,.audit-offer>div a{
+  min-height:52px;
+  padding:0 24px;
+  border:2px solid var(--ink);
+  border-radius:6px;
+  color:var(--ink);
+  background:var(--lime);
+  box-shadow:0 5px 0 var(--ink)!important;
+  font-weight:900;
+  letter-spacing:.08em;
+  transition:transform .15s,box-shadow .15s,background .15s;
+}
+.button-teal:after,.button-lime:after,.resource .button-dark:after{display:none}
+.button-teal:hover,.button-lime:hover,.button-dark:hover,
+.audit-lead button:hover,.audit-offer>div a:hover{
+  transform:translateY(-2px);
+  box-shadow:0 7px 0 var(--ink)!important;
+}
+.button-teal:active,.button-lime:active,.button-dark:active,
+.audit-lead button:active,.audit-offer>div a:active{
+  transform:translateY(2px);
+  box-shadow:0 2px 0 var(--ink)!important;
+}
+.button-outline,.button-ghost{min-height:52px;border:2px solid var(--ink);border-radius:6px;background:transparent;box-shadow:none!important}
+
+@media(max-width:700px){
+  .audit-result .result-preview{grid-template-columns:1fr;gap:30px}
+  .audit-result>.result-preview>.score-ring{margin-inline:auto}
+  .category-scores{grid-template-columns:1fr;gap:18px}
+  .result-content h2{font-size:clamp(28px,9vw,38px)}
+}
