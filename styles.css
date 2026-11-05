@@ -531,8 +531,8 @@ footer{height:92px;background:var(--paper);border:0}
 /* Auditoría por lentes: vender, controlar y módulos opcionales */
 .question-category.selling>header{color:var(--ink);background:var(--teal)}
 .question-category.control>header{color:var(--ink);background:var(--lime)}
-.question-category.service>header{color:var(--ink);background:#f2dc45}
-.question-category.marketing>header{color:var(--ink);background:#ef9a4b}
+.question-category.service>header{color:var(--ink);background:var(--teal)}
+.question-category.marketing>header{color:var(--ink);background:var(--lime)}
 .question-category[hidden]{display:none}
 .category-scores{grid-template-columns:repeat(2,minmax(0,1fr))}
 .mode-verdict{margin-top:22px;padding:18px 20px;background:var(--ink);color:#fff}
