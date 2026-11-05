@@ -547,6 +547,7 @@ footer{height:92px;background:var(--paper);border:0}
 
 /* Resultado: jerarquía clara y textos sin apilar */
 .mode-verdict{display:grid;grid-template-columns:minmax(150px,max-content) minmax(0,1fr);align-items:center;gap:8px 24px}
+.mode-verdict[hidden]{display:none}
 .mode-verdict>span{white-space:nowrap}
 .mode-verdict>strong{margin:0;font-size:18px}
 .mode-verdict>p{grid-column:1/-1;width:100%}
