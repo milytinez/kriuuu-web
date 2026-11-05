@@ -566,3 +566,17 @@ footer{height:92px;background:var(--paper);border:0}
 .audit-actions button:active,.audit-actions a:active,.audit-lead button:active,.audit-offer>div a:active{transform:translateY(2px);box-shadow:0 2px 0 var(--ink)!important}
 .hero h1 em,.about-copy h2 em,.services strong,.question>span,.data .question>span,.audit-note b{color:var(--ink)}
 @media(max-width:650px){.audit-header .logo{width:150px}}
+
+/* Destacados y CTA final de la landing */
+.hero h1 em,.about-copy h2 em{
+  color:#00e2f4;
+  -webkit-text-stroke:.8px var(--ink);
+  paint-order:stroke fill
+}
+.cta .button-lime,.cta .button-ghost{
+  min-height:52px;padding:0 24px;border:2px solid var(--ink);border-radius:6px;
+  color:var(--ink);background:var(--lime);box-shadow:0 5px 0 var(--ink)!important;
+  font-weight:900;letter-spacing:.08em;transition:transform .15s,box-shadow .15s,background .15s
+}
+.cta .button-lime:hover,.cta .button-ghost:hover{color:var(--ink);border-color:var(--ink);background:var(--lime);transform:translateY(-2px);box-shadow:0 7px 0 var(--ink)!important}
+.cta .button-lime:active,.cta .button-ghost:active{transform:translateY(2px);box-shadow:0 2px 0 var(--ink)!important}
