@@ -597,3 +597,20 @@ footer{height:92px;background:var(--paper);border:0}
   text-shadow:none;
   filter:none
 }
+
+/* CTA final: módulo contenido para separar acciones y conservar la marca. */
+.cta .button-row{
+  width:min(720px,100%);margin:34px auto 0;padding:22px;
+  align-items:center;justify-content:center;gap:14px;
+  border:1px solid rgba(255,255,255,.3);border-radius:8px;
+  background:rgba(255,255,255,.08);backdrop-filter:blur(8px)
+}
+.cta .button-lime{
+  color:var(--ink);background:#00e2f4;border-color:var(--ink)
+}
+.cta .button-lime:hover{color:var(--ink);background:#00e2f4;border-color:var(--ink)}
+.resource .button-dark{
+  min-height:52px;padding:0 24px;border:2px solid var(--ink);border-radius:6px;
+  box-shadow:0 5px 0 var(--ink)!important
+}
+@media(max-width:650px){.cta .button-row{padding:18px}.cta .button-row .button{width:100%}}
