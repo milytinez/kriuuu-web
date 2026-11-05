@@ -1,81 +1,175 @@
 const questions = [
-  ["Pipeline real", "¿El pipeline refleja tu proceso de venta real, o son las etapas de fábrica que nadie tocó?", "commercial", false],
-  ["Actividad automática", "¿Las llamadas y reuniones se registran solas, o dependen de que alguien se acuerde de escribirlas?", "commercial", false],
-  ["Seguimiento inteligente", "¿El sistema crea las tareas de seguimiento solo, o depende de la memoria del comercial?", "data", false],
-  ["Control de duplicados", "¿Tu sistema evita que dos personas llamen al mismo lead el mismo día?", "data", false],
-  ["Visibilidad ejecutiva", "¿El dueño o CEO ve el estado real del negocio sin pedirle un reporte a nadie?", "commercial", false],
-  ["Adopción diaria", "¿Tu equipo usa Salesforce todos los días sin que se lo exijan?", "commercial", false],
-  ["Asignación de casos", "¿Los casos se asignan automáticamente, o alguien los reparte a mano?", "clouds", true],
-  ["SLA medible", "¿Tenés un tiempo de respuesta que podés medir, o es “lo que tarde”?", "clouds", true],
-  ["ROI de campañas", "¿Sabés qué campaña generó cada venta, en pesos?", "clouds", true],
-  ["Marketing conectado", "¿Los leads de marketing entran solos a ventas, o alguien los pasa a mano?", "clouds", true],
-  ["Autoservicio de clientes", "¿Tus clientes pueden ver pedidos, casos o facturas sin llamarte?", "clouds", true],
-  ["Integraciones sin copy-paste", "¿Tu equipo evita copiar y pegar datos entre Salesforce y otros sistemas?", "data", true],
-  ["Seguridad bien definida", "¿Sabés quién puede ver y editar qué, sin que todos sean “medio admin”?", "data", true],
-  ["Venta móvil", "¿Tu equipo puede cerrar una venta desde el celular sin volver a la oficina?", "clouds", true]
+  { topic: "Pipeline real", text: "¿El pipeline refleja tu proceso de venta real, o son las etapas de fábrica que nadie tocó?", category: "selling" },
+  { topic: "Actividad automática", text: "¿Las llamadas y reuniones se registran solas, o dependen de que alguien se acuerde de escribirlas?", category: "selling" },
+  { topic: "Seguimiento inteligente", text: "¿El sistema crea las tareas de seguimiento solo, o depende de la memoria del comercial?", category: "selling" },
+  { topic: "Venta móvil", text: "¿Tu equipo puede cerrar una venta desde el celular sin volver a la oficina?", category: "selling" },
+  { topic: "Adopción diaria", text: "¿Tu equipo usa Salesforce todos los días sin que se lo exijan?", category: "selling" },
+  { topic: "Visibilidad ejecutiva", text: "¿El dueño o CEO ve el estado real del negocio sin pedirle un reporte a nadie?", category: "control" },
+  { topic: "Control de duplicados", text: "¿Tu sistema evita que dos personas llamen al mismo lead el mismo día?", category: "control" },
+  { topic: "Seguridad bien definida", text: "¿Sabés quién puede ver y editar qué, sin que todos sean \"medio admin\"?", category: "control" },
+  { topic: "Asignación de casos", text: "¿Los casos se asignan automáticamente, o alguien los reparte a mano?", category: "service", optional: true },
+  { topic: "SLA medible", text: "¿Tenés un tiempo de respuesta que podés medir, o es \"lo que tarde\"?", category: "service", optional: true },
+  { topic: "Autoservicio de clientes", text: "¿Tus clientes pueden ver pedidos, casos o facturas sin llamarte?", category: "service", optional: true },
+  { topic: "ROI de campañas", text: "¿Sabés qué campaña generó cada venta, en pesos?", category: "marketing", optional: true },
+  { topic: "Marketing conectado", text: "¿Los leads de marketing entran solos a ventas, o alguien los pasa a mano?", category: "marketing", optional: true },
+  { topic: "Integraciones sin copy-paste", text: "¿Tu equipo evita copiar y pegar datos entre Salesforce y otros sistemas?", category: "marketing", optional: true }
 ];
 
-const cats = {
-  commercial: ["I", "Núcleo comercial", "Ventas, visibilidad y adopción"],
-  data: ["II", "Datos & automatización", "Calidad, seguimiento y seguridad"],
-  clouds: ["III", "Nubes extendidas", "Solo si usás esa funcionalidad"]
+const categories = {
+  selling: ["A", "¿Te ayuda a VENDER?", "Lente vendedor · 10 puntos · aplica a todos"],
+  control: ["B", "¿Te da CONTROL y datos confiables?", "Lente gerencia · 6 puntos · aplica a todos"],
+  service: ["C", "Servicio y post-venta", "Opcional · solo si usás Servicio · admite N/A"],
+  marketing: ["D", "Marketing y conexiones", "Opcional · admite N/A"]
 };
 
-function render(el, start, end) {
-  let html = "", previous = "";
-  questions.slice(start, end).forEach((q, offset) => {
+const groups = {
+  selling: [0, 1, 2, 3, 4],
+  control: [5, 6, 7],
+  service: [8, 9, 10],
+  marketing: [11, 12, 13]
+};
+
+function render(container, start, end) {
+  let html = "";
+  let previous = "";
+  questions.slice(start, end).forEach((question, offset) => {
     const index = start + offset;
-    if (q[2] !== previous) {
+    if (question.category !== previous) {
       if (previous) html += "</div></section>";
-      const category = cats[q[2]];
-      html += `<section class="question-category ${q[2]}"><header><span>${category[0]}</span><b>${category[1]}</b><small>(${category[2]})</small></header><div>`;
-      previous = q[2];
+      const category = categories[question.category];
+      html += `<section class="question-category ${question.category}" data-category="${question.category}"><header><span>${category[0]}</span><b>${category[1]}</b><small>(${category[2]})</small></header><div>`;
+      previous = question.category;
     }
-    html += `<article class="question"><span aria-hidden="true">${String(index + 1).padStart(2, "0")}</span><div><h3>${q[0]}${q[3] ? " · Extendido" : ""}</h3><p>${q[1]}</p></div><fieldset aria-label="${q[0]}"><label><input type="radio" name="q${index}" value="2">SÍ</label><label><input type="radio" name="q${index}" value="1">PARCIAL</label><label><input type="radio" name="q${index}" value="0">NO</label>${q[3] ? `<label class="na"><input type="radio" name="q${index}" value="na">N/A</label>` : ""}</fieldset></article>`;
+    html += `<article class="question"><span aria-hidden="true">${String(index + 1).padStart(2, "0")}</span><div><h3>${question.topic}</h3><p>${question.text}</p></div><fieldset aria-label="${question.topic}"><label><input type="radio" name="q${index}" value="2">SÍ</label><label><input type="radio" name="q${index}" value="1">PARCIAL</label><label><input type="radio" name="q${index}" value="0">NO</label>${question.optional ? `<label class="na"><input type="radio" name="q${index}" value="na">N/A</label>` : ""}</fieldset></article>`;
   });
-  el.innerHTML = html + "</div></section>";
+  container.innerHTML = html + "</div></section>";
 }
 
-render(document.querySelector("#questions-one"), 0, 6);
-render(document.querySelector("#questions-two"), 6, 14);
+render(document.querySelector("#questions-one"), 0, 8);
+render(document.querySelector("#questions-two"), 8, 14);
 document.querySelector("#audit-result").setAttribute("aria-live", "polite");
 document.querySelector("#score-ring").setAttribute("role", "img");
 
-const groups = { commercial: [0, 1, 4, 5], data: [2, 3, 11, 12], clouds: [6, 7, 8, 9, 10, 13] };
+const productSelect = document.querySelector("#profile-products");
+const profileSelects = [...document.querySelectorAll(".audit-profile select")];
+
+function categoryApplies(category) {
+  if (category === "selling" || category === "control") return true;
+  if (category === "service") return ["service", "multiple"].includes(productSelect.value);
+  if (category === "marketing") return ["marketing", "multiple"].includes(productSelect.value);
+  return false;
+}
+
+function applyRouting() {
+  ["service", "marketing"].forEach(category => {
+    const section = document.querySelector(`[data-category="${category}"]`);
+    const applies = categoryApplies(category);
+    section.hidden = !applies;
+    section.setAttribute("aria-hidden", String(!applies));
+    groups[category].forEach(index => {
+      if (!applies) document.querySelector(`input[name="q${index}"][value="na"]`).checked = true;
+    });
+  });
+}
+
+function visibleIndices() {
+  return questions.map((question, index) => ({ question, index })).filter(({ question }) => categoryApplies(question.category)).map(({ index }) => index);
+}
+
+function answerValue(index) {
+  return document.querySelector(`input[name="q${index}"]:checked`)?.value;
+}
+
 function groupScore(indices) {
-  const values = indices.map(i => document.querySelector(`input[name="q${i}"]:checked`)?.value).filter(v => v && v !== "na").map(Number);
-  return values.length ? Math.round(values.reduce((a, b) => a + b, 0) / (values.length * 2) * 100) : null;
+  const values = indices.map(answerValue).filter(value => value && value !== "na").map(Number);
+  return values.length ? Math.round(values.reduce((sum, value) => sum + value, 0) / (values.length * 2) * 100) : null;
+}
+
+function profileIsComplete() {
+  return profileSelects.every(select => select.value);
+}
+
+function modeVerdict(selling, control) {
+  const sells = selling >= 50;
+  const controls = control >= 50;
+  if (!sells && controls) return "Tu Salesforce es un archivo, no una herramienta de venta.";
+  if (sells && !controls) return "Vende, pero a ciegas: sin datos confiables arriba.";
+  if (!sells && !controls) return "Estás pagando Salesforce y casi no lo usás.";
+  return "Bien construido — a afinar detalles.";
+}
+
+function contrastMessage(selling, control) {
+  const objective = document.querySelector("#profile-objective").value;
+  if (objective === "sell" && selling < 50) return "Hay una contradicción clave: el objetivo declarado es vender mejor, pero Salesforce hoy puntúa bajo como herramienta de venta.";
+  if (objective === "control" && control < 50) return "Hay una contradicción clave: el objetivo declarado es dar visibilidad a la gerencia, pero el bloque Controlar hoy puntúa bajo.";
+  if (objective === "both" && (selling < 50 || control < 50)) return "El objetivo declarado combina venta y control, pero al menos una de esas dos capacidades todavía está por debajo de lo esperado.";
+  return "";
+}
+
+function currentState() {
+  const applicable = visibleIndices();
+  const answers = applicable.map(answerValue);
+  const questionsComplete = answers.every(Boolean);
+  const complete = profileIsComplete() && questionsComplete;
+  const scored = answers.filter(value => value && value !== "na").map(Number);
+  const score = complete && scored.length ? Math.round(scored.reduce((sum, value) => sum + value, 0) / (scored.length * 2) * 100) : null;
+  return { applicable, answers, complete, score };
 }
 
 function update() {
-  const answers = questions.map((_, i) => document.querySelector(`input[name="q${i}"]:checked`)?.value);
-  const complete = answers.every(Boolean);
-  const scored = answers.filter(v => v && v !== "na").map(Number);
-  const score = complete && scored.length ? Math.round(scored.reduce((a, b) => a + b, 0) / (scored.length * 2) * 100) : null;
-  const findings = answers.filter(v => v === "0" || v === "1").length;
+  const { applicable, answers, complete, score } = currentState();
+  const findings = answers.filter(value => value === "0" || value === "1").length;
+  const selling = complete ? groupScore(groups.selling) : null;
+  const control = complete ? groupScore(groups.control) : null;
+
   document.querySelector("#no-count").textContent = findings;
+  document.querySelector("#applicable-count").textContent = applicable.length;
   document.querySelector("#score-value").textContent = score === null ? "—" : score;
   document.querySelector("#score-ring").setAttribute("aria-label", score === null ? "Puntaje pendiente" : `Puntaje ${score} de 100`);
   document.querySelector("#score-ring").style.setProperty("--score", score === null ? "0deg" : `${score * 3.6}deg`);
-  Object.entries(groups).forEach(([key, indices]) => {
-    const value = complete ? groupScore(indices) : null;
+
+  [["selling", selling], ["control", control]].forEach(([key, value]) => {
     document.querySelector(`#${key}-score`).textContent = value === null ? "—" : `${value}%`;
     document.querySelector(`#${key}-bar`).style.width = value === null ? "0%" : `${value}%`;
   });
 
-  let status = "Completá la auditoría", title = "Descubrí dónde tenés dinero parado.", copy = "Respondé los 14 puntos para medir cuánto valor real le está devolviendo Salesforce a tu empresa.", level = "pending";
+  let status = "Completá la auditoría";
+  let title = "Descubrí dónde tenés dinero parado.";
+  let copy = "Respondé el perfil y los puntos visibles para medir cuánto valor real le está devolviendo Salesforce a tu empresa.";
+  let level = "pending";
   if (complete && score > 75) {
-    status = "Salesforce bien construido"; title = "Tu Salesforce vende. El próximo salto está en optimizar."; copy = "La base funciona y acompaña al negocio. Revisá los hallazgos parciales para encontrar mejoras de alto impacto."; level = "excellent";
+    status = "Bien construido";
+    title = "La base es sólida. Ahora toca afinar los detalles.";
+    copy = "Salesforce acompaña al negocio y aprovecha buena parte de su capacidad estándar. Los hallazgos parciales muestran dónde está el próximo salto.";
+    level = "excellent";
   } else if (complete && score >= 50) {
-    status = "Hay palanca sin usar"; title = "Funciona, pero todavía deja dinero arriba de la mesa."; copy = "Hay procesos manuales y capacidades nativas sin aprovechar. Resolverlos puede acelerar ventas sin desarrollo a medida."; level = "improvable";
+    status = "Palanca sin usar";
+    title = "Funciona, pero todavía deja dinero arriba de la mesa.";
+    copy = "Hay procesos manuales y capacidades estándar sin aprovechar. Resolverlos puede acelerar ventas y mejorar el control sin desarrollo a medida.";
+    level = "improvable";
   } else if (complete) {
-    status = "Te está costando plata"; title = "Tu Salesforce está frenando al equipo todos los meses."; copy = "La fricción es estructural: se pierde información, tiempo comercial y visibilidad. La buena noticia es que puede resolverse con herramientas estándar."; level = "urgent";
+    status = "Te cuesta plata";
+    title = "Tu Salesforce está frenando al equipo todos los meses.";
+    copy = "La fricción es estructural: se pierde tiempo comercial, información y visibilidad. La buena noticia es que gran parte puede resolverse con herramientas estándar.";
+    level = "urgent";
   }
-  document.querySelector("#audit-result").dataset.level = level;
+
+  const result = document.querySelector("#audit-result");
+  result.dataset.level = level;
   document.querySelector("#result-status").textContent = status;
   document.querySelector("#result-title").textContent = title;
   document.querySelector("#result-copy").textContent = copy;
-  const result = document.querySelector("#audit-result");
+
+  const verdict = document.querySelector("#mode-verdict");
+  const contrast = document.querySelector("#contrast-note");
+  verdict.hidden = !complete;
+  if (complete) {
+    document.querySelector("#mode-verdict-text").textContent = modeVerdict(selling, control);
+    const contrastText = contrastMessage(selling, control);
+    contrast.hidden = !contrastText;
+    contrast.textContent = contrastText;
+  }
+
   const gate = document.querySelector("#result-gate");
   const preview = document.querySelector("#result-preview");
   if (!complete) {
@@ -90,36 +184,55 @@ function update() {
 }
 
 function updateMissing() {
-  const remaining = questions.filter((_, i) => !document.querySelector(`input[name="q${i}"]:checked`)).length;
+  const unanswered = visibleIndices().filter(index => !answerValue(index)).length;
+  const missingProfile = profileSelects.filter(select => !select.value).length;
   const notice = document.querySelector("#answers-missing");
-  notice.hidden = remaining === 0;
-  notice.textContent = remaining === 1 ? "Falta 1 respuesta para calcular tu puntaje." : `Faltan ${remaining} respuestas para calcular tu puntaje.`;
+  notice.hidden = unanswered === 0 && missingProfile === 0;
+  const parts = [];
+  if (unanswered) parts.push(unanswered === 1 ? "1 respuesta de auditoría" : `${unanswered} respuestas de auditoría`);
+  if (missingProfile) parts.push(missingProfile === 1 ? "1 dato de perfil" : `${missingProfile} datos de perfil`);
+  notice.textContent = parts.length ? `Faltan ${parts.join(" y ")} para calcular tu puntaje.` : "";
 }
 
-document.onchange = () => { update(); updateMissing(); };
-document.querySelector("#restart").onclick = () => { document.querySelectorAll(".question input").forEach(input => input.checked = false); document.querySelector("#audit-result").classList.remove("is-revealed"); update(); updateMissing(); window.scrollTo({top: 0, behavior: "smooth"}); };
+document.addEventListener("change", event => {
+  if (event.target === productSelect) applyRouting();
+  update();
+  updateMissing();
+});
+
+document.querySelector("#restart").addEventListener("click", () => {
+  document.querySelectorAll(".question input").forEach(input => { input.checked = false; });
+  profileSelects.forEach(select => { select.value = ""; });
+  document.querySelector("#audit-result").classList.remove("is-revealed");
+  applyRouting();
+  update();
+  updateMissing();
+  window.scrollTo({ top: 0, behavior: "smooth" });
+});
 
 document.querySelector("#lead-form").addEventListener("submit", async event => {
   event.preventDefault();
   const form = event.currentTarget;
   const message = document.querySelector("#lead-message");
   const button = document.querySelector("#lead-submit");
-  const answers = questions.map((q, i) => ({ key: `q${i + 1}`, label: q[0], value: document.querySelector(`input[name="q${i}"]:checked`)?.value || null }));
-  const missing = answers.filter(answer => !answer.value).length;
-  if (missing) {
-    message.textContent = `Completá las ${missing} respuestas pendientes antes de guardar el resultado.`;
+  const state = currentState();
+  if (!state.complete) {
+    message.textContent = "Completá el perfil y las respuestas pendientes antes de guardar el resultado.";
     document.querySelector("#answers-missing").scrollIntoView({ behavior: "smooth", block: "center" });
     return;
   }
 
+  const answers = questions.map((question, index) => ({ key: `q${index + 1}`, label: question.topic, value: answerValue(index) || "na" }));
   const data = new FormData(form);
-  const profileInputs = [...document.querySelectorAll(".audit-profile input, .audit-profile select")];
-  const score = Number(document.querySelector("#score-value").textContent);
+  const optionText = select => select.options[select.selectedIndex]?.text || "";
+  const selling = groupScore(groups.selling);
+  const control = groupScore(groups.control);
   const payload = {
     name: data.get("name"), email: data.get("email"), company: data.get("company"), role: data.get("role"), consent: data.get("consent") === "on",
-    profile: { products: profileInputs[0]?.value || "", implementationAge: profileInputs[1]?.value || "", administration: profileInputs[2]?.value || "", objective: profileInputs[3]?.value || "" },
-    answers, score,
-    categoryScores: Object.fromEntries(Object.keys(groups).map(key => [key, groupScore(groups[key])]))
+    profile: { products: optionText(productSelect), objective: optionText(document.querySelector("#profile-objective")), objectiveKey: document.querySelector("#profile-objective").value, implementationAge: document.querySelector("#profile-age").value, administration: document.querySelector("#profile-administration").value },
+    answers,
+    score: state.score,
+    categoryScores: { selling, control, service: groupScore(groups.service), marketing: groupScore(groups.marketing), verdict: modeVerdict(selling, control) }
   };
 
   button.disabled = true;
@@ -141,4 +254,7 @@ document.querySelector("#lead-form").addEventListener("submit", async event => {
     button.textContent = "Guardar resultado y contactarme →";
   }
 });
-update(); updateMissing();
+
+applyRouting();
+update();
+updateMissing();

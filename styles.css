@@ -528,3 +528,15 @@ footer{height:92px;background:var(--paper);border:0}
 .cta .button-ghost{color:var(--ink);border-color:var(--teal);background:var(--teal)}
 .cta .button-ghost:hover{color:var(--ink);border-color:#fff;background:#fff}
 @media(max-width:650px){.audit-header .logo{width:108px}}
+/* Auditoría por lentes: vender, controlar y módulos opcionales */
+.question-category.selling>header{color:var(--ink);background:var(--teal)}
+.question-category.control>header{color:var(--ink);background:var(--lime)}
+.question-category.service>header{color:var(--ink);background:#f2dc45}
+.question-category.marketing>header{color:var(--ink);background:#ef9a4b}
+.question-category[hidden]{display:none}
+.category-scores{grid-template-columns:repeat(2,minmax(0,1fr))}
+.mode-verdict{margin-top:22px;padding:18px 20px;background:var(--ink);color:#fff}
+.mode-verdict>span{display:block!important;color:var(--teal);font-size:9px!important;font-weight:900;letter-spacing:1px;text-transform:uppercase}
+.mode-verdict>strong{display:block;margin-top:7px;font-size:16px;line-height:1.35}
+.mode-verdict>p{margin:12px 0 0;padding-top:12px;border-top:1px solid #ffffff35;color:#fff!important;font-size:11px!important;line-height:1.55}
+@media(max-width:650px){.category-scores{grid-template-columns:1fr}.mode-verdict{padding:16px}}
