@@ -540,3 +540,7 @@ footer{height:92px;background:var(--paper);border:0}
 .mode-verdict>strong{display:block;margin-top:7px;font-size:16px;line-height:1.35}
 .mode-verdict>p{margin:12px 0 0;padding-top:12px;border-top:1px solid #ffffff35;color:#fff!important;font-size:11px!important;line-height:1.55}
 @media(max-width:650px){.category-scores{grid-template-columns:1fr}.mode-verdict{padding:16px}}
+
+/* La guía del resultado contiene únicamente los tres rangos definidos. */
+.result-guide>div{grid-template-columns:repeat(3,1fr)}
+@media(max-width:650px){.result-guide>div{grid-template-columns:1fr}}
