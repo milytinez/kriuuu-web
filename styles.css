@@ -618,3 +618,7 @@ footer{height:92px;background:var(--paper);border:0}
   box-shadow:0 5px 0 var(--ink)!important
 }
 @media(max-width:650px){.cta .button-row{padding:18px}.cta .button-row .button{width:100%}}
+
+/* CTA final sin formas decorativas en el fondo. */
+.cta::before,
+.cta::after{display:none}
