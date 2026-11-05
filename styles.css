@@ -584,7 +584,7 @@ footer{height:92px;background:var(--paper);border:0}
 }
 .button-teal{color:var(--ink);background:var(--teal)}
 .button-lime,.audit-actions button,.audit-actions a,.audit-lead button{color:var(--ink);background:var(--lime)}
-.button-dark{color:#fff;background:var(--ink)}
+.button-dark,.resource .button-dark{color:#fff;background:var(--ink);border:2px solid var(--ink)}
 .button-outline,.button-ghost{color:var(--ink);background:transparent}
 .audit-offer>div a{color:var(--ink);background:var(--teal)}
 .cta .button-ghost{color:#fff;border-color:#fff;background:transparent}
