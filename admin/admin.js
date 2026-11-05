@@ -34,7 +34,7 @@ function openDetail(audit) {
   const profile = audit.profile || {};
   document.querySelector("#detail-content").innerHTML = `<p class="eyebrow">DIAGNÓSTICO GUARDADO</p><h2>${esc(audit.name)} <em>${audit.score}/100</em></h2>
     <p><a href="mailto:${encodeURIComponent(audit.email)}">${esc(audit.email)}</a> · ${esc(audit.company || "Sin empresa")} · ${esc(audit.role || "Sin rol")}</p>
-    <div class="scores"><span>Comercial <b>${audit.categoryScores?.commercial ?? "—"}%</b></span><span>Datos <b>${audit.categoryScores?.data ?? "—"}%</b></span><span>Nubes <b>${audit.categoryScores?.clouds ?? "—"}%</b></span></div>
+    <div class="scores"><span>Vender <b>${audit.categoryScores?.selling ?? audit.categoryScores?.commercial ?? "—"}%</b></span><span>Controlar <b>${audit.categoryScores?.control ?? audit.categoryScores?.data ?? "—"}%</b></span><span>Opcionales <b>${audit.categoryScores?.service ?? audit.categoryScores?.marketing ?? audit.categoryScores?.clouds ?? "—"}%</b></span></div>
     <dl><div><dt>Productos</dt><dd>${esc(profile.products || "—")}</dd></div><div><dt>Antigüedad</dt><dd>${esc(profile.implementationAge || "—")}</dd></div><div><dt>Administración</dt><dd>${esc(profile.administration || "—")}</dd></div><div><dt>Objetivo</dt><dd>${esc(profile.objective || "—")}</dd></div></dl>
     <ol>${audit.answers.map(answer => `<li><span>${esc(answer.label)}</span><b>${answerLabel[answer.value] || "—"}</b></li>`).join("")}</ol>`;
   detail.showModal();
@@ -45,7 +45,7 @@ document.querySelector("#search").addEventListener("input", event => { clearTime
 document.querySelector(".close").addEventListener("click", () => detail.close());
 document.querySelector("#export").addEventListener("click", () => {
   const quote = value => `"${String(value ?? "").replaceAll('"', '""')}"`;
-  const rows = [["Fecha","Nombre","Email","Empresa","Rol","Puntaje","Comercial","Datos","Nubes"], ...audits.map(a => [a.created_at,a.name,a.email,a.company,a.role,a.score,a.categoryScores?.commercial,a.categoryScores?.data,a.categoryScores?.clouds])];
+  const rows = [["Fecha","Nombre","Email","Empresa","Rol","Puntaje","Vender","Controlar","Servicio","Marketing"], ...audits.map(a => [a.created_at,a.name,a.email,a.company,a.role,a.score,a.categoryScores?.selling ?? a.categoryScores?.commercial,a.categoryScores?.control ?? a.categoryScores?.data,a.categoryScores?.service ?? a.categoryScores?.clouds,a.categoryScores?.marketing ?? a.categoryScores?.clouds])];
   const blob = new Blob(["\ufeff" + rows.map(row => row.map(quote).join(",")).join("\n")], { type: "text/csv;charset=utf-8" });
   const link = document.createElement("a"); link.href = URL.createObjectURL(blob); link.download = `kriuuu-auditorias-${new Date().toISOString().slice(0,10)}.csv`; link.click(); URL.revokeObjectURL(link.href);
 });
