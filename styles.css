@@ -544,3 +544,12 @@ footer{height:92px;background:var(--paper);border:0}
 /* La guía del resultado contiene únicamente los tres rangos definidos. */
 .result-guide>div{grid-template-columns:repeat(3,1fr)}
 @media(max-width:650px){.result-guide>div{grid-template-columns:1fr}}
+
+/* Resultado: jerarquía clara y textos sin apilar */
+.mode-verdict{display:grid;grid-template-columns:minmax(150px,max-content) minmax(0,1fr);align-items:center;gap:8px 24px}
+.mode-verdict>span{white-space:nowrap}
+.mode-verdict>strong{margin:0;font-size:18px}
+.mode-verdict>p{grid-column:1/-1;width:100%}
+.result-count{display:flex;flex-wrap:wrap;align-items:baseline;gap:4px;line-height:1.45}
+.result-count strong,.result-count span{display:inline-block!important;flex:0 0 auto;width:auto!important}
+@media(max-width:650px){.mode-verdict{grid-template-columns:1fr;gap:7px}.mode-verdict>strong{font-size:16px}.mode-verdict>p{grid-column:1}.result-count{gap:3px 4px}}
