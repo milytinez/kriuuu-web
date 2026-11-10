@@ -346,7 +346,7 @@ body,.audit-body{background:var(--paper)}
 .hero-copy p{max-width:470px}
 .hero-visual{min-height:780px;border:0;background:linear-gradient(to bottom,transparent 0 31%,var(--teal) 31% 74%,transparent 74%)}
 .hero-visual>img{left:14%;width:76%;filter:grayscale(1) contrast(1.12);object-position:center;mix-blend-mode:multiply}
-.hero-visual:before{content:"KRIUUU / SALESFORCE EXPERIENCE / 2026";position:absolute;z-index:3;right:3.5%;top:10%;writing-mode:vertical-rl;color:var(--ink);font-size:11px;font-weight:900;letter-spacing:.08em}
+.hero-visual:before{content:"KRIUUU / CRM EXPERIENCE / 2026";position:absolute;z-index:3;right:3.5%;top:10%;writing-mode:vertical-rl;color:var(--ink);font-size:11px;font-weight:900;letter-spacing:.08em}
 .hero-visual:after{content:"+ UX\A+ DEV\A+ ADOPCIÓN";white-space:pre;position:absolute;z-index:3;left:4%;bottom:7%;font-size:10px;font-weight:900;line-height:1.7;letter-spacing:.08em}
 .teal-overlay{display:none}
 .stats{z-index:4;left:auto;right:3%;bottom:4%;width:45%;background:var(--ink)}
@@ -385,7 +385,7 @@ footer{height:92px;background:var(--paper);border:0}
 .audit-cover .audit-kicker{color:var(--ink)}
 .audit-cover h1{font-size:clamp(92px,12vw,180px);line-height:.72;color:var(--ink)}
 .audit-cover h2{max-width:520px;margin-top:46px;font-size:clamp(22px,2vw,32px)}
-.audit-cover h2:after{content:"KRIUUU / AUDITORÍA SALESFORCE / 2026";position:absolute;right:3.5vw;top:80px;writing-mode:vertical-rl;font-size:10px;font-weight:900;letter-spacing:.1em}
+.audit-cover h2:after{content:"KRIUUU / AUDITORÍA DE FLUJO / 2026";position:absolute;right:3.5vw;top:80px;writing-mode:vertical-rl;font-size:10px;font-weight:900;letter-spacing:.1em}
 .audit-intro{border:0}.audit-intro article{padding:70px 5vw;background:var(--paper-2);color:var(--ink)}
 .audit-intro article+article{border:0;background:var(--ink);color:#fff}.audit-tags span{border-radius:0}
 .audit-how,.result-guide{padding:70px 5vw 0}.audit-how>div{border:0}.audit-how article{padding:34px 32px;border:0!important;background:transparent}.audit-how b{font-size:72px;color:var(--ink)}

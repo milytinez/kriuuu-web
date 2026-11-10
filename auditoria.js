@@ -3,7 +3,7 @@ const questions = [
   { topic: "Actividad automática", text: "¿Las llamadas y reuniones se registran solas, o dependen de que alguien se acuerde de escribirlas?", category: "selling" },
   { topic: "Seguimiento inteligente", text: "¿El sistema crea las tareas de seguimiento solo, o depende de la memoria del comercial?", category: "selling" },
   { topic: "Venta móvil", text: "¿Tu equipo puede cerrar una venta desde el celular sin volver a la oficina?", category: "selling" },
-  { topic: "Adopción diaria", text: "¿Tu equipo usa Salesforce todos los días sin que se lo exijan?", category: "selling" },
+  { topic: "Adopción diaria", text: "¿Tu equipo usa la plataforma Salesforce todos los días sin que se lo exijan?", category: "selling" },
   { topic: "Visibilidad ejecutiva", text: "¿El dueño o CEO ve el estado real del negocio sin pedirle un reporte a nadie?", category: "control" },
   { topic: "Control de duplicados", text: "¿Tu sistema evita que dos personas llamen al mismo lead el mismo día?", category: "control" },
   { topic: "Seguridad bien definida", text: "¿Sabés quién puede ver y editar qué, sin que todos sean \"medio admin\"?", category: "control" },
@@ -12,7 +12,7 @@ const questions = [
   { topic: "Autoservicio de clientes", text: "¿Tus clientes pueden ver pedidos, casos o facturas sin llamarte?", category: "service", optional: true },
   { topic: "ROI de campañas", text: "¿Sabés qué campaña generó cada venta, en pesos?", category: "marketing", optional: true },
   { topic: "Marketing conectado", text: "¿Los leads de marketing entran solos a ventas, o alguien los pasa a mano?", category: "marketing", optional: true },
-  { topic: "Integraciones sin copy-paste", text: "¿Tu equipo evita copiar y pegar datos entre Salesforce y otros sistemas?", category: "marketing", optional: true }
+  { topic: "Integraciones sin copy-paste", text: "¿Tu equipo evita copiar y pegar datos entre la plataforma Salesforce y otros sistemas?", category: "marketing", optional: true }
 ];
 
 const categories = {
@@ -92,15 +92,15 @@ function profileIsComplete() {
 function modeVerdict(selling, control) {
   const sells = selling >= 50;
   const controls = control >= 50;
-  if (!sells && controls) return "Tu Salesforce es un archivo, no una herramienta de venta.";
+  if (!sells && controls) return "La plataforma Salesforce funciona como un archivo, no como una herramienta de venta.";
   if (sells && !controls) return "Vende, pero a ciegas: sin datos confiables arriba.";
-  if (!sells && !controls) return "Estás pagando Salesforce y casi no lo usás.";
+  if (!sells && !controls) return "Estás pagando por una plataforma que casi no usás.";
   return "Bien construido — a afinar detalles.";
 }
 
 function contrastMessage(selling, control) {
   const objective = document.querySelector("#profile-objective").value;
-  if (objective === "sell" && selling < 50) return "Hay una contradicción clave: el objetivo declarado es vender mejor, pero Salesforce hoy puntúa bajo como herramienta de venta.";
+  if (objective === "sell" && selling < 50) return "Hay una contradicción clave: el objetivo declarado es vender mejor, pero la plataforma Salesforce hoy puntúa bajo como herramienta de venta.";
   if (objective === "control" && control < 50) return "Hay una contradicción clave: el objetivo declarado es dar visibilidad a la gerencia, pero el bloque Controlar hoy puntúa bajo.";
   if (objective === "both" && (selling < 50 || control < 50)) return "El objetivo declarado combina venta y control, pero al menos una de esas dos capacidades todavía está por debajo de lo esperado.";
   return "";
@@ -135,12 +135,12 @@ function update() {
 
   let status = "Completá la auditoría";
   let title = "Descubrí dónde tenés dinero parado.";
-  let copy = "Respondé el perfil y los puntos visibles para medir cuánto valor real le está devolviendo Salesforce a tu empresa.";
+  let copy = "Respondé el perfil y los puntos visibles para medir cuánto valor real le está devolviendo la plataforma Salesforce a tu empresa.";
   let level = "pending";
   if (complete && score > 75) {
     status = "Bien construido";
     title = "La base es sólida. Ahora toca afinar los detalles.";
-    copy = "Salesforce acompaña al negocio y aprovecha buena parte de su capacidad estándar. Los hallazgos parciales muestran dónde está el próximo salto.";
+    copy = "La plataforma Salesforce acompaña al negocio y aprovecha buena parte de su capacidad estándar. Los hallazgos parciales muestran dónde está el próximo salto.";
     level = "excellent";
   } else if (complete && score >= 50) {
     status = "Palanca sin usar";
@@ -149,7 +149,7 @@ function update() {
     level = "improvable";
   } else if (complete) {
     status = "Te cuesta plata";
-    title = "Tu Salesforce está frenando al equipo todos los meses.";
+    title = "Tu operación comercial está frenando al equipo todos los meses.";
     copy = "La fricción es estructural: se pierde tiempo comercial, información y visibilidad. La buena noticia es que gran parte puede resolverse con herramientas estándar.";
     level = "urgent";
   }
